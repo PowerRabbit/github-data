@@ -1,16 +1,19 @@
 import { observable, action, decorate } from "mobx";
 
-type UserData = {
+export type UserData = {
     id?: number,
     login: string,
     avatar_url: string,
     html_url: string,
-    followers_url: string,
     followers: number,
+    repos_url: string,
+    created_at: string,
+    updated_at: string,
+    name?: string,
     email?: string
 };
 
-type RepoData = {
+export type RepoData = {
     ownerId?: number,
     name: string,
     html_url: string,
@@ -35,10 +38,13 @@ const prepareRawUserData = (data: Record<string, DataEntry>): UserData => {
     return {
         id: Number(data.id),
         login: String(data.login),
+        name: data.name ? String(data.name) : undefined,
         avatar_url: String(data.avatar_url),
         html_url: String(data.html_url),
-        followers_url: String(data.followers_url),
+        created_at: String(data.created_at),
+        updated_at: String(data.created_at),
         followers: Number(data.followers),
+        repos_url: String(data.repos_url),
         email: data.email ? String(data.email) : undefined
     }
 };
@@ -46,10 +52,13 @@ const prepareRawUserData = (data: Record<string, DataEntry>): UserData => {
 const getEmptyUserData = (): UserData => {
     return {
         login: '',
+        name: '',
         avatar_url: '',
         html_url: '',
-        followers_url: '',
+        created_at: '',
+        updated_at: '',
         followers: 0,
+        repos_url: '',
     };
 }
 
@@ -74,6 +83,7 @@ export class AppState {
 
 decorate (AppState, {
     userData: observable,
+    userRepos: observable,
     updataUserData: action,
     updataRepoData: action,
     resetData: action

@@ -1,0 +1,7 @@
+.avatar {
+    height: 128px;
+    width: 128px;
+    border: 5px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: -1px 3px 5px 1px rgba(0,0,0,0.75);
+}

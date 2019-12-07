@@ -6,4 +6,4 @@ export const debounce = (func: Function, timeout: number) => {
             func(...args);
         }, timeout);
     };
-  }
+}
