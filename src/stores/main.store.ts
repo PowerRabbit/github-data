@@ -71,7 +71,7 @@ export class AppState {
         this.userData = prepareRawUserData(data);
     }
 
-    updataRepoData(data: Array<Record<string, DataEntry>>) {
+    updateRepoData(data: Array<Record<string, DataEntry>>) {
         this.userRepos = data.map(entry => prepareRawRepoData(entry)).filter(repoData => repoData.ownerId != null && repoData.ownerId === this.userData.id);
     }
 
@@ -85,6 +85,6 @@ decorate (AppState, {
     userData: observable,
     userRepos: observable,
     updataUserData: action,
-    updataRepoData: action,
+    updateRepoData: action,
     resetData: action
 });

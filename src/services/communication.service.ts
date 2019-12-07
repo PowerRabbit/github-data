@@ -1,5 +1,4 @@
 import { RequestMethod, GdResponseType } from "../enum/communication.enum";
-import { SETTINGS } from "../settings";
 
 type GdRequestOptions = {
     url: string;
@@ -9,7 +8,7 @@ type GdRequestOptions = {
 
 export type GdResponse = {
     type: GdResponseType;
-    data: Record<string, string>;
+    data: Record<string, string> | Array<Record<string, string>>;
     message: string;
 }
 
@@ -100,7 +99,7 @@ class CommunicationServiceSingleton {
     }
 
     private async makeRequest(url: string, method: string, payload?: Record<string, string>): Promise<GdResponse> {
-        const request = new GdRequest({url: SETTINGS.SERVER_URL + url, method: (method as RequestMethod), payload});
+        const request = new GdRequest({url: url, method: (method as RequestMethod), payload});
         const sameRequest = this.requests.find(r => r.fullSignature === request.fullSignature);
 
         if (sameRequest) {
@@ -133,7 +132,7 @@ class CommunicationServiceSingleton {
     }
 
     public cancelRequest(method: RequestMethod, url: string) {
-        const request = this.requests.filter(r => r.shortSignature === method + SETTINGS.SERVER_URL + url)[0];
+        const request = this.requests.filter(r => r.shortSignature === method + url)[0];
 
         if (request) {
             request.cancel();

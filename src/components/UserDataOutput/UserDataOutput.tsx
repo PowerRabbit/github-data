@@ -18,7 +18,7 @@ export const UserDataOutput: React.FC<UserDataOutputProps> = (props) => {
             {props.userData.login &&
             <div>
                 <div>{avatar}</div>
-                <h1>{props.userData.login}</h1>
+                <h2>{props.userData.login}</h2>
                 {created_at}
                 {updated_at}
                 {name}
