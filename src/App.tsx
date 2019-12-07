@@ -8,8 +8,20 @@ import { GdAPI } from './services/api.service';
 import { GdResponseType } from './enum/communication.enum';
 import { UserDataOutput } from './components/UserDataOutput/UserDataOutput';
 import { UserRepo } from './components/userRepo/userRepo';
+import { SETTINGS } from './settings';
 
 let currentRepoUrl = '';
+let doNotRequest: Record<string, boolean> = {};
+let doNotRequestLength = 0;
+
+const addToDoNotRequest = (name: string) => {
+    if (doNotRequestLength > 100) {
+        doNotRequestLength = 0;
+        doNotRequest = {};
+    }
+    doNotRequest[name] = true;
+    doNotRequestLength += 1;
+}
 
 const App = inject("store") (
     observer ((props: { store?: AppState }) => {
@@ -39,7 +51,7 @@ const App = inject("store") (
 
             props.store!.resetData();
 
-            if (!username) {
+            if (!username || doNotRequest[username]) {
                 GdAPI.cancelUserDataRequest();
                 return;
             }
@@ -47,7 +59,11 @@ const App = inject("store") (
             GdAPI.getUserData(username).then(response => {
                 switch(response.type) {
                     case GdResponseType.error:
-                        alert(response.message || 'An error occured. Please, check your internet connection.');
+                        if (response.message === SETTINGS.WRONG_NAME) {
+                            addToDoNotRequest(username);
+                        } else {
+                            alert(response.message || 'An error occured. Please, check your internet connection.');
+                        }
                     break;
                     case GdResponseType.ok:
                         props.store!.updataUserData(response.data as Record<string, string>);

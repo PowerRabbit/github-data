@@ -1,4 +1,5 @@
 import { RequestMethod, GdResponseType } from "../enum/communication.enum";
+import { SETTINGS } from "../settings";
 
 type GdRequestOptions = {
     url: string;
@@ -11,6 +12,8 @@ export type GdResponse = {
     data: Record<string, string> | Array<Record<string, string>>;
     message: string;
 }
+
+const errorStatuses = [401, 403, 404];
 
 class GdRequest {
 
@@ -59,6 +62,7 @@ class GdRequest {
 
     private async perform(): Promise<GdResponse> {
         try {
+            let status: number|null = 200;
             const response = await fetch(this.url, {
                 method: this.method,
                 body: this.payload,
@@ -67,7 +71,16 @@ class GdRequest {
                 headers:{
                   'Content-Type': 'application/json'
                 }
-            }).then(res => res.json());
+            }).then(res => {
+                status = res.status;
+                return res.json();
+            });
+
+            if (errorStatuses.includes(status)) {
+                return this.composeResult(GdResponseType.error, {
+                    message: SETTINGS.WRONG_NAME
+                });
+            }
             return this.composeResult(GdResponseType.ok, response);
         } catch(e) {
             console.warn(e);
