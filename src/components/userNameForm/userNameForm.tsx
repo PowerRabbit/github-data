@@ -1,4 +1,5 @@
 import React from 'react';
+import './userNameForm.css';
 import { debounce } from '../../services/utils.service';
 import { SETTINGS } from '../../settings';
 

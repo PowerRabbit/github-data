@@ -1,0 +1,40 @@
+.repoWrapper:nth-child(even) {
+    background-color: #323741;
+}
+.repoWrapper {
+    padding: 10px 20px;
+}
+
+.repoWrapper h3 {
+    margin: 0 0 5px 0;
+}
+
+small {
+    font-size: 80%;
+    font-weight: 500;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .repoWrapper_shown {
+        animation: fadeInFromNone forwards 0.3s linear;
+    }
+}
+
+@keyframes fadeInFromNone {
+    0% {
+        display: none;
+        margin-top: 20px;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        margin-top: 0px;
+        display: block;
+        opacity: 1;
+    }
+}

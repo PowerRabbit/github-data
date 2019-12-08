@@ -1,7 +1,48 @@
+.main {
+    display: inline-block;
+    margin: 50px 0 20px 0;
+    text-align: left;
+}
+
 .avatar {
     height: 128px;
     width: 128px;
+    display: block;
+    margin: 0 auto;
     border: 5px solid #ffffff;
     border-radius: 50%;
     box-shadow: -1px 3px 5px 1px rgba(0,0,0,0.75);
+}
+
+h2 {
+    text-align: center;
+}
+
+strong {
+    font-weight: 600;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .main_shown {
+        animation: fadeInFromNoneMain forwards 0.3s linear;
+    }
+}
+
+@keyframes fadeInFromNoneMain {
+    0% {
+        display: none;
+        margin-top: 100px;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        margin-top: 50px;
+        display: block;
+        opacity: 1;
+    }
 }

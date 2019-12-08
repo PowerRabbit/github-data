@@ -29,7 +29,6 @@ const App = inject("store") (
         reaction(
             () => props.store!.userData.repos_url,
             (url, reaction) => {
-
                 if (!url) {
                     GdAPI.cancelUserReposRequest();
                 } else {
@@ -76,8 +75,12 @@ const App = inject("store") (
             <div className="App">
                 <h1>Type a GitHub username</h1>
                 <UserNameForm getUsername={getUsername} />
-                <UserDataOutput userData={props.store!.userData} />
-                {props.store!.userRepos.map((repoData, k) => <UserRepo key={k} repoData={repoData} />)}
+                <section>
+                    <UserDataOutput userData={props.store!.userData} />
+                </section>
+                <section className="mainRepoWrapper">
+                    {props.store!.userRepos.map((repoData, k) => <UserRepo key={k} repoData={repoData} />)}
+                </section>
             </div>
         );
     })
